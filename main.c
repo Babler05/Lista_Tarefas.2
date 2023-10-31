@@ -27,6 +27,8 @@ int main() {
             deletarTarefa(&lt);
         }else if(opcao == 3){
             listaTarefas(lt);
+          }else if(opcao == 4){
+            alterarTarefa(&lt);
         }else{
             printf("Opcao nao existe\n");
         }
