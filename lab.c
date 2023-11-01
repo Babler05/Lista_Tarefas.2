@@ -4,12 +4,23 @@
 #include <string.h>
 
 void printMenu(){
-    printf("Menu: \n");
-    printf("0: Sair\n");
-    printf("1. Criar Tarefa\n");
-    printf("2. Deletar Tarefa(confira o numero na lista(opcao 3))\n");
-    printf("3. Listar Tarefas:\n");
-    printf("4. Alterar Tarefa\n");
+  printf("Menu: \n");
+  printf("0: Sair\n");
+  printf("1. Criar Tarefa\n");
+  printf("2. Deletar Tarefa(confira o numero na lista(opcao 3))\n");
+  printf("3. Listar Tarefas:\n");
+  printf("4. Alterar Tarefa\n");
+  
+  printf("5. Filtrar por prioridade\n");
+  printf("6. Filtar por estado\n");
+  printf("7. Filtrar por categoria\n");
+  printf("8. Filtar por prioridade e categoria\n");
+  
+  printf("9. Exportar tarefas por prioridade\n");
+  printf("10. Exportar tarefas por categoria\n");
+  printf("11. Exportar tarefas por prioridade e categoria\n");
+  
+  
 }
 
 int criarTarefa(ListadeTarefas *lt){
@@ -58,7 +69,7 @@ int deletarTarefa(ListadeTarefas *lt){
 }
 
 
-int listaTarefas(ListadeTarefas lt){
+int listarTarefas(ListadeTarefas lt){
     for(int i = 0; i < lt.qtd;i++){
 
         printf("Tarefa %d\n",i+1);
@@ -70,6 +81,90 @@ int listaTarefas(ListadeTarefas lt){
     }
 
     return 0;}
+
+int filtrarTarefas(ListadeTarefas lt){
+  ListadeTarefas ltfiltro;
+  int c = 0;
+  printf("Digite a opção desejada: \n");
+  printf("1 - Filtrar por prioridade\n");
+  printf("2 - Filtrar por estado\n");
+  printf("3 - Filtrar por categoria\n");
+  printf("4 - Filtrar por categori e prioridade\n");
+  scanf("%d",&c);
+  
+  switch(c){
+    case 0:
+      listarTarefas(lt);
+      break;
+    case 1:
+      printf("");
+      int prio;
+      printf("Qual a prioridade?");
+      scanf("%d",&prio);
+      for(int i = 0; i < lt.qtd;i++){
+        if(lt.tarefas[i].prioridade == prio){
+          ltfiltro.tarefas[i] = lt.tarefas[i];
+          ltfiltro.qtd++;
+        }
+      }
+      listarTarefas(ltfiltro);
+      break;
+    case 2:
+      printf("");
+      char est[13];
+      printf("Completo/ Em andamento/ Não iniciado");
+      scanf("%s",est);
+      for(int i=0;i<lt.qtd;i++){
+        if(strcmp(lt.tarefas[i].estado,est) == 0){
+          ltfiltro.tarefas[i] = lt.tarefas[i];
+          ltfiltro.qtd++;
+        }
+      }
+      listarTarefas(ltfiltro);
+      break;
+    case 3:
+      printf("");
+      char cat[100];
+      prio=10;
+      printf("Digite a categoria: ");
+      scanf("%s",cat);
+      for(int i=0;i<lt.qtd;i++){
+        if(strcmp(lt.tarefas[i].categoria,cat) == 0){
+          ltfiltro.tarefas[i] = lt.tarefas[i];  
+        }
+      }
+      for(int i = 0; i < lt.qtd;i++){
+        if(lt.tarefas[i].prioridade == prio){
+          printf("Tarefa %d\n",i+1);
+          printf("Categaria: %s \n",lt.tarefas[i].categoria);
+          printf("Prioridade: %d \n",lt.tarefas[i].prioridade);
+          printf("Estado: %s \n",lt.tarefas[i].estado);
+          printf("Descricao: %s \n",lt.tarefas[i].descricao);
+          printf("\n");
+        }
+        --prio;
+      }
+      break;
+    case 4:
+      printf("");
+      printf("Digite a categoria: ");
+      scanf("%s",cat);
+      printf("Qual a prioridade?");
+      scanf("%d",&prio);
+      for(int i=0;i<lt.qtd;i++){
+        if((strcmp(lt.tarefas[i].categoria,cat) == 0)&&(lt.tarefas[i].prioridade==prio)){
+          ltfiltro.tarefas[i] = lt.tarefas[i];
+        }
+      }
+      listarTarefas(ltfiltro);
+      break;
+    case 5:
+    
+    default:
+      break;
+  }
+  return 0;
+}
 
 
 int salvarLista(ListadeTarefas lt, char nome[]){
