@@ -128,22 +128,17 @@ int filtrarTarefas(ListadeTarefas lt){
       prio=10;
       printf("Digite a categoria: ");
       scanf("%s",cat);
-      for(int i=0;i<lt.qtd;i++){
-        if(strcmp(lt.tarefas[i].categoria,cat) == 0){
-          ltfiltro.tarefas[i] = lt.tarefas[i];  
+      for(int p=10;p>=0;p--){
+        for(int i=0;i<lt.qtd;i++){
+          if((strcmp(lt.tarefas[i].categoria,cat) == 0)){
+            if(lt.tarefas[i].prioridade == p){
+              ltfiltro.tarefas[i] = lt.tarefas[i];
+              ltfiltro.qtd++;
+            }
+          }
         }
       }
-      for(int i = 0; i < lt.qtd;i++){
-        if(lt.tarefas[i].prioridade == prio){
-          printf("Tarefa %d\n",i+1);
-          printf("Categaria: %s \n",lt.tarefas[i].categoria);
-          printf("Prioridade: %d \n",lt.tarefas[i].prioridade);
-          printf("Estado: %s \n",lt.tarefas[i].estado);
-          printf("Descricao: %s \n",lt.tarefas[i].descricao);
-          printf("\n");
-        }
-        --prio;
-      }
+      listarTarefas(ltfiltro);
       break;
     case 4:
       printf("");
@@ -154,6 +149,7 @@ int filtrarTarefas(ListadeTarefas lt){
       for(int i=0;i<lt.qtd;i++){
         if((strcmp(lt.tarefas[i].categoria,cat) == 0)&&(lt.tarefas[i].prioridade==prio)){
           ltfiltro.tarefas[i] = lt.tarefas[i];
+          ltfiltro.qtd++;
         }
       }
       listarTarefas(ltfiltro);
@@ -166,6 +162,10 @@ int filtrarTarefas(ListadeTarefas lt){
   return 0;
 }
 
+int exportarTarefas(ListadeTarefas lt, char nome_txt[]){
+  FILE *f;
+  
+}
 
 int salvarLista(ListadeTarefas lt, char nome[]){
     FILE *f = fopen(nome, "wb");
